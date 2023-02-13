@@ -13,7 +13,12 @@ state:{
     }
 },
 getters:{},
-mutations:{},
+mutations:{
+    logout:(state)=>{
+        state.user.data = {}
+        state.user.token = null
+    }
+},
 modules:{},
 actions:{}
 })
