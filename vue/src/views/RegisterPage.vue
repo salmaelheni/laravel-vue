@@ -11,30 +11,36 @@
                     Or
                     {{ ' ' }}
                     <router-link :to="{ name: 'LoginPage' }"
-                        class="font-medium text-indigo-600 hover:text-indigo-500">start your 14-day free
-                        trial</router-link>
+                        class="font-medium text-indigo-600 hover:text-indigo-500">Login Here
+                    </router-link>
                 </p>
             </div>
-            <form class="mt-8 space-y-6" action="#" method="POST">
+            <form class="mt-8 space-y-6" @submit="register">
                 <input type="hidden" name="remember" value="true" />
                 <div class="-space-y-px rounded-md shadow-sm">
                     <div>
                         <label for="fullname" class="sr-only">Name</label>
-                        <input id="fullname" name="name" type="text" autocomplete="name" required=""
+                        <input id="fullname" name="name" type="text" v-model="user.name" autocomplete="name" required=""
                             class="relative block w-full appearance-none rounded-none  border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                             placeholder="Name" />
                     </div>
                     <div>
                         <label for="email-address" class="sr-only">Email address</label>
-                        <input id="email-address" name="email" type="email" autocomplete="email" required=""
+                        <input id="email-address" name="email" type="email" v-model="user.email" autocomplete="email" required=""
                             class="relative block w-full appearance-none rounded-none  border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                             placeholder="Email address" />
                     </div>
                     <div>
                         <label for="password" class="sr-only">Password</label>
-                        <input id="password" name="password" type="password" autocomplete="current-password" required=""
-                            class="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                        <input id="password" name="password" type="password" v-model="user.password" autocomplete="current-password" required=""
+                            class="relative block w-full appearance-none rounded-none  border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                             placeholder="Password" />
+                    </div>
+                    <div>
+                        <label for="password_confirmation" class="sr-only">Password confirmation</label>
+                        <input id="password_confirmation" name="password" type="password" v-model="user.password_confirmation" autocomplete="current-password" required=""
+                            class="relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                            placeholder="Password confirmation" />
                     </div>
                 </div>
 
@@ -63,13 +69,30 @@
 </template>
 
 
-<script>
+<script setup>
+import {LockClosedIcon} from '@heroicons/vue/solid'
+import store from "../store"
+import {useRouter} from "vue-router"
+const router = useRouter()
+const user ={
+    name:'',
+    email:'',
+    password:'',
+    password_confirmation:'',
 
-export default {
-    name: "RegisterPage",
+};
+function register(ev){
+ev.preventDefault()
+store.dispatch('register',user)
+.then(()=>{
+    router.push({
+        name:'dashboard'
+    })
+})
 }
 </script>
 
 <style scoped>
+
 
 </style>
